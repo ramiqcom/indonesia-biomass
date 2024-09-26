@@ -9,16 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/earthengine": "^1.0.0",
+    "@tmcw/togeojson": "^5.8.1",
+    "@turf/turf": "^7.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "maplibre-gl": "^4.7.0",
+    "next": "14.2.10",
+    "prettier": "^3.3.3",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.10"
+    "shpjs": "^6.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.10"
+    "eslint-config-next": "14.2.10",
+    "typescript": "^5"
   }
 }
