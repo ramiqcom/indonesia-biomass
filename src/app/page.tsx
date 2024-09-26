@@ -1,4 +1,4 @@
-export const dynamic = 'force';
+export const dynamic = 'force-dynamic';
 
 import Main from '@/components/main';
 import { years } from '@/data/lc.json';
