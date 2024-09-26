@@ -2,10 +2,10 @@ import { Map } from 'maplibre-gl';
 import { Dispatch, SetStateAction } from 'react';
 
 export type VisObject = {
-  bands?: Array<string>;
-  min?: Array<number>;
-  max?: Array<number>;
-  palette?: Array<string>;
+  bands?: Array<string> | string;
+  min?: Array<number> | number;
+  max?: Array<number> | number;
+  palette?: Array<string> | string;
 };
 
 export type MapId = {
@@ -26,10 +26,11 @@ export type Options = Array<Option>;
 export type SetState<T> = Dispatch<SetStateAction<T>>;
 
 export type GlobalContext = {
-  firstUrl: string;
-  urlDict: Record<string, string>;
-  setUrlDict: SetState<Record<string, string>>;
+  firstUrlDict: Urls;
+  urlDict: Record<string, Urls>;
+  setUrlDict: SetState<Record<string, Urls>>;
   lcId: string;
+  agbId: string;
   year: Option;
   setYear: SetState<Option>;
   years: Options;
@@ -38,4 +39,12 @@ export type GlobalContext = {
   setMap: SetState<Map>;
   status: Status;
   setStatus: SetState<Status>;
+  layers: Options;
+  layer: Option;
+  setLayer: SetState<Option>;
+};
+
+export type Urls = {
+  lc: string;
+  agb: string;
 };

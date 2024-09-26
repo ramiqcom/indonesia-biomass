@@ -2,15 +2,15 @@ export const dynamic = 'force';
 
 import Main from '@/components/main';
 import { years } from '@/data/lc.json';
-import { lcLayer } from '@/module/layer';
+import { getLayer } from '@/module/layer';
 
 export default async function Home() {
   const year = years.at(-1);
-  const firstUrl = await lcLayer(year);
+  const firstUrlDict = await getLayer(year);
 
   return (
     <>
-      <Main defaultStates={{ firstUrl, defaultYear: year }} />
+      <Main defaultStates={{ firstUrlDict, defaultYear: year }} />
     </>
   );
 }

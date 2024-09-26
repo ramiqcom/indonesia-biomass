@@ -1,10 +1,11 @@
+import { identify } from '@/module/layer';
 import { Context } from '@/module/store';
 import { Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useContext, useEffect } from 'react';
 
 export default function MapCanvas() {
-  const { firstUrl, setMap, lcId, setStatus } = useContext(Context);
+  const { firstUrlDict, setMap, lcId, agbId, setStatus, year, layer } = useContext(Context);
 
   const divId = 'map';
 
@@ -27,7 +28,12 @@ export default function MapCanvas() {
             },
             [lcId]: {
               type: 'raster',
-              tiles: [firstUrl],
+              tiles: [firstUrlDict.lc],
+              tileSize: 256,
+            },
+            [agbId]: {
+              type: 'raster',
+              tiles: [firstUrlDict.agb],
               tileSize: 256,
             },
           },
@@ -41,11 +47,35 @@ export default function MapCanvas() {
               id: lcId,
               source: lcId,
               type: 'raster',
+              layout: {
+                visibility: layer.value == lcId ? 'visible' : 'none',
+              },
+            },
+            {
+              id: agbId,
+              source: agbId,
+              type: 'raster',
+              layout: {
+                visibility: layer.value == agbId ? 'visible' : 'none',
+              },
             },
           ],
         },
       });
       setMap(map);
+
+      map.on('click', async (e) => {
+        try {
+          setStatus({ type: 'process', message: 'Identify...' });
+          const coords = e.lngLat.toArray();
+          const { landcover, agbMin, agbMax } = await identify(year.value, coords);
+          const message = `Land cover: ${landcover}\nAGB: ${agbMin} - ${agbMax}`;
+          setStatus({ type: 'success', message });
+        } catch ({ message }) {
+          setStatus({ type: 'failed', message });
+        }
+      });
+
       setStatus({ type: 'success', message: 'Map loaded' });
     } catch ({ message }) {
       setStatus({ type: 'failed', message });

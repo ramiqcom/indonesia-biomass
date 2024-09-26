@@ -3,15 +3,15 @@
 import MapCanvas from '@/components/map';
 import { years as yearsList } from '@/data/lc.json';
 import { Context } from '@/module/store';
-import { Option, Status } from '@/module/type';
+import { Option, Status, Urls } from '@/module/type';
 import { Map } from 'maplibre-gl';
 import { useState } from 'react';
 import Panel from './panel';
 
 export default function Main({
-  defaultStates: { firstUrl, defaultYear },
+  defaultStates: { firstUrlDict, defaultYear },
 }: {
-  defaultStates: { firstUrl: string; defaultYear: number };
+  defaultStates: { firstUrlDict: Urls; defaultYear: number };
 }) {
   const [years, setYears] = useState(
     yearsList.map((year) => new Object({ value: year, label: String(year) }) as Option),
@@ -19,14 +19,25 @@ export default function Main({
   const [year, setYear] = useState(years.filter((x) => x.value == defaultYear)[0]);
   const [map, setMap] = useState<Map>();
   const [status, setStatus] = useState<Status>({ message: 'Loading app...', type: 'process' });
-  const [urlDict, setUrlDict] = useState({ [String(defaultYear)]: firstUrl });
+  const [urlDict, setUrlDict] = useState<Record<string, Urls>>({
+    [String(defaultYear)]: firstUrlDict,
+  });
   const lcId = 'lc';
+  const agbId = 'agb';
+
+  const layers = [
+    { label: 'AGB (C Ton/Ha)', value: agbId },
+    { label: 'Land cover', value: lcId },
+  ];
+
+  const [layer, setLayer] = useState(layers[1]);
 
   const states = {
-    firstUrl,
+    firstUrlDict,
     urlDict,
     setUrlDict,
     lcId,
+    agbId,
     years,
     setYears,
     year,
@@ -35,6 +46,9 @@ export default function Main({
     setMap,
     status,
     setStatus,
+    layers,
+    layer,
+    setLayer,
   };
 
   return (

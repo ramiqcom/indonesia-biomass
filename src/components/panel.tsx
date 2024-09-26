@@ -1,5 +1,6 @@
-import { lcLayer } from '@/module/layer';
+import { getLayer } from '@/module/layer';
 import { Context } from '@/module/store';
+import { Urls } from '@/module/type';
 import { RasterTileSource } from 'maplibre-gl';
 import { useContext } from 'react';
 import { Select } from './input';
@@ -24,6 +25,7 @@ export default function Panel() {
         }}
       >
         <YearsSelect />
+        <LayerSelect />
         <Legend />
         {status.message}
       </div>
@@ -31,8 +33,30 @@ export default function Panel() {
   );
 }
 
+function LayerSelect() {
+  const { status, layers, layer, setLayer, map } = useContext(Context);
+  return (
+    <Select
+      options={layers}
+      value={layer}
+      onChange={(value) => {
+        setLayer(value);
+
+        layers.map((dict) => {
+          map.setLayoutProperty(
+            dict.value,
+            'visibility',
+            dict.value == value.value ? 'visible' : 'none',
+          );
+        });
+      }}
+      disabled={status.type == 'failed'}
+    />
+  );
+}
+
 function YearsSelect() {
-  const { years, year, setYear, map, lcId, status, setStatus, urlDict, setUrlDict } =
+  const { years, year, setYear, map, lcId, agbId, status, setStatus, urlDict, setUrlDict } =
     useContext(Context);
   return (
     <Select
@@ -44,17 +68,20 @@ function YearsSelect() {
           setStatus({ type: 'process', message: 'Loading data...' });
           setYear(value);
 
-          let url: string;
+          let urls: Urls;
           if (urlDict[String(value.value)]) {
-            url = urlDict[String(value.value)];
+            urls = urlDict[String(value.value)];
           } else {
-            url = await lcLayer(value.value);
-            urlDict[String(value.value)] = url;
+            urls = await getLayer(value.value);
+            urlDict[String(value.value)] = urls;
             setUrlDict(urlDict);
           }
 
-          const source = map.getSource(lcId) as RasterTileSource;
-          source.setTiles([url]);
+          const lcSource = map.getSource(lcId) as RasterTileSource;
+          lcSource.setTiles([urls.lc]);
+
+          const agbSource = map.getSource(agbId) as RasterTileSource;
+          agbSource.setTiles([urls.agb]);
           setStatus({ type: 'success', message: 'Data loaded' });
         } catch ({ message }) {
           setStatus({ type: 'failed', message });
