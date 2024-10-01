@@ -26,10 +26,120 @@ export default function Panel() {
           textAlign: 'center',
         }}
       >
+        <div style={{ fontSize: 'x-large' }}>Indonesian Land Cover Analysis Platform</div>
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            height: '0.1px',
+            marginTop: '2vh',
+            marginBottom: '2vh',
+          }}
+        />
+
         <YearsSelect />
         <LayerSelect />
+
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            height: '0.1px',
+            marginTop: '2vh',
+            marginBottom: '2vh',
+          }}
+        />
+
         <Analysis />
-        {status.message}
+
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            height: '0.1px',
+            marginTop: '2vh',
+            marginBottom: '2vh',
+          }}
+        />
+
+        <div
+          style={{
+            fontWeight: 'bold',
+            color:
+              status.type == 'process'
+                ? 'lightskyblue'
+                : status.type == 'success'
+                  ? 'lightgreen'
+                  : 'lightcoral',
+          }}
+        >
+          {status.message}
+        </div>
+
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            height: '0.1px',
+            marginTop: '2vh',
+            marginBottom: '2vh',
+          }}
+        />
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          Created by Ramadhan
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1vh' }}>
+            <a
+              style={{ color: 'lightskyblue', fontWeight: 'bold' }}
+              target='_blank'
+              href='https://linkedin.com/in/ramiqcom'
+            >
+              LinkedIn
+            </a>
+            <a
+              style={{ color: 'lightskyblue', fontWeight: 'bold' }}
+              target='_blank'
+              href='https://github/ramiqcom'
+            >
+              GitHub
+            </a>
+            <a
+              style={{ color: 'lightskyblue', fontWeight: 'bold' }}
+              target='_blank'
+              href='https://youtube.com/@ramiqcom'
+            >
+              YouTube
+            </a>
+            <a
+              style={{ color: 'lightskyblue', fontWeight: 'bold' }}
+              target='_blank'
+              href='mailto:ramiqcom@gmail.com'
+            >
+              Email
+            </a>
+          </div>
+        </div>
+
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: 'white',
+            height: '0.1px',
+            marginTop: '2vh',
+            marginBottom: '2vh',
+          }}
+        />
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {'Data Source'}
+          <a
+            href='https://sigap.menlhk.go.id/'
+            style={{ color: 'lightskyblue', fontWeight: 'bold' }}
+            target='_blank'
+          >
+            Ministry of Forestry and Life Environment of Republic of Indonesia
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -41,6 +151,7 @@ function LayerSelect() {
     <Select
       options={layers}
       value={layer}
+      disabled={status.type == 'process'}
       onChange={(value) => {
         setLayer(value);
 
@@ -52,7 +163,6 @@ function LayerSelect() {
           );
         });
       }}
-      disabled={status.type == 'failed'}
     />
   );
 }
@@ -64,7 +174,7 @@ function YearsSelect() {
     <Select
       options={years}
       value={year}
-      disabled={status.type == 'failed'}
+      disabled={status.type == 'process'}
       onChange={async (value) => {
         try {
           setStatus({ type: 'process', message: 'Loading data...' });

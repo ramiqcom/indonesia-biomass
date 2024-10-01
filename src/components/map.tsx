@@ -69,7 +69,7 @@ export default function MapCanvas() {
           setStatus({ type: 'process', message: 'Identify...' });
           const coords = e.lngLat.toArray();
           const { landcover, agbMin, agbMax } = await identify(year.value, coords);
-          const message = `Land cover: ${landcover}\nAGB: ${agbMin} - ${agbMax} C Ton/Ha`;
+          const message = `Land cover: ${landcover}; AGB: ${agbMin} - ${agbMax} C Ton/Ha`;
           setStatus({ type: 'success', message });
         } catch ({ message }) {
           setStatus({ type: 'failed', message });
