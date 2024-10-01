@@ -3,30 +3,65 @@
 body {
   margin: 0;
   font-family: 'Roboto', system-ui;
-  background-color: black;
+  background-color: rgb(19, 19, 19);
   display: flex;
   height: 100vh;
   width: 100%;
   color: white;
-  font-size: medium;
+  font-size: small;
+}
+
+button {
+  min-height: 3vh;
+  font-size: small;
+  background-color: rgb(65, 65, 65);
+  color: white;
+  border: none;
+  width: 100%;
+}
+
+button:enabled:hover {
+  background-color: rgb(103, 103, 103);
+}
+
+button:disabled {
+  background-color: rgb(19, 19, 19);
+  border: thin solid white;
+}
+
+input::file-selector-button {
+  background-color: rgb(65, 65, 65);
+  color: white;
+  border: none;
+  font-size: small;
+  min-height: 3vh;
+}
+
+input:enabled:hover::file-selector-button {
+  background-color: rgb(103, 103, 103);
+}
+
+input:disabled::file-selector-button {
+  background-color: rgb(19, 19, 19);
+  border: thin solid white;
 }
 
 select {
-  background-color: black;
+  background-color: rgb(65, 65, 65);
   min-height: 3vh;
   color: white;
   width: 100%;
-  border: thin solid white;
   text-align: center;
+  font-size: small;
 }
 
-select:hover {
-  background-color: darkgray;
+select:enabled:hover {
+  background-color: rgb(103, 103, 103);
 }
 
 select:disabled {
-  color: darkgray;
-  border: thin solid gray;
+  color: rgb(19, 19, 19);
+  border: thin solid white;
 }
 
 #map canvas {

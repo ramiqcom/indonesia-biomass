@@ -3,6 +3,7 @@ import { Context } from '@/module/store';
 import { Urls } from '@/module/type';
 import { RasterTileSource } from 'maplibre-gl';
 import { useContext } from 'react';
+import Analysis from './analysis';
 import { Select } from './input';
 import Legend from './legend';
 
@@ -13,6 +14,8 @@ export default function Panel() {
     <div
       style={{
         width: '25%',
+        maxHeight: '100vh',
+        overflowY: 'auto',
       }}
     >
       <div
@@ -27,6 +30,7 @@ export default function Panel() {
         <YearsSelect />
         <LayerSelect />
         <Legend />
+        <Analysis />
         {status.message}
       </div>
     </div>

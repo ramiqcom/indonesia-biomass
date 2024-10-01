@@ -12,12 +12,15 @@
     "@google/earthengine": "^1.0.0",
     "@tmcw/togeojson": "^5.8.1",
     "@turf/turf": "^7.1.0",
+    "epsg": "^0.5.0",
     "eslint-config-prettier": "^9.1.0",
     "maplibre-gl": "^4.7.0",
     "next": "14.2.10",
     "prettier": "^3.3.3",
+    "proj4": "^2.12.1",
     "react": "^18",
     "react-dom": "^18",
+    "reproject": "^1.2.7",
     "shpjs": "^6.1.0"
   },
   "devDependencies": {

@@ -2,6 +2,7 @@
 
 import { agb_mean, agb_se, agb_vis, biom_palette, label, palette, values } from '@/data/lc.json';
 import ee from '@google/earthengine';
+import { BBox, FeatureCollection } from 'geojson';
 import { authenticate, evaluate, getMapId } from './ee';
 
 export async function getLayer(year: number) {
@@ -54,4 +55,48 @@ export async function identify(year: number, coords: number[]) {
     .filter((x) => x)[0];
 
   return output;
+}
+
+export async function calculateMultitemporal(geojson: FeatureCollection<any>, bounds: BBox) {
+  await authenticate();
+
+  const area = ee.Image.pixelArea().divide(1e4);
+  const col = ee.ImageCollection(process.env.LC_COLLECTION);
+
+  const features = ee.FeatureCollection(geojson);
+  const geometry = ee.Geometry.BBox(bounds[0], bounds[1], bounds[2], bounds[3]);
+
+  const areaData = col
+    .map((image) => {
+      const stats = area
+        .addBands(image)
+        .clipToCollection(features)
+        .reduceRegion({
+          scale: 300,
+          maxPixels: 1e13,
+          geometry,
+          reducer: ee.Reducer.sum().setOutputs(['area']).group(1, 'lc'),
+        });
+
+      const featureArea = ee.FeatureCollection(
+        ee.List(stats.get('groups')).map((dict) =>
+          ee.Feature(
+            null,
+            ee
+              .Dictionary(dict)
+              .set('year', image.get('year'))
+              .set('area', ee.Number(ee.Dictionary(dict).get('area')).toInt()),
+          ),
+        ),
+      );
+
+      return featureArea;
+    })
+    .flatten();
+
+  const listArea = areaData
+    .toList(areaData.size())
+    .map((feat) => ee.Feature(feat).toDictionary(['year', 'lc', 'area']));
+
+  return await evaluate(listArea);
 }

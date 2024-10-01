@@ -1,3 +1,4 @@
+import { FeatureCollection } from 'geojson';
 import { Map } from 'maplibre-gl';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -42,6 +43,9 @@ export type GlobalContext = {
   layers: Options;
   layer: Option;
   setLayer: SetState<Option>;
+  geojson: FeatureCollection<any>;
+  setGeojson: SetState<FeatureCollection<any>>;
+  roiId: string;
 };
 
 export type Urls = {

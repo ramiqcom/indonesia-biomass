@@ -4,6 +4,7 @@ import MapCanvas from '@/components/map';
 import { years as yearsList } from '@/data/lc.json';
 import { Context } from '@/module/store';
 import { Option, Status, Urls } from '@/module/type';
+import { FeatureCollection } from 'geojson';
 import { Map } from 'maplibre-gl';
 import { useState } from 'react';
 import Panel from './panel';
@@ -22,8 +23,11 @@ export default function Main({
   const [urlDict, setUrlDict] = useState<Record<string, Urls>>({
     [String(defaultYear)]: firstUrlDict,
   });
+  const [geojson, setGeojson] = useState<FeatureCollection<any>>();
+
   const lcId = 'lc';
   const agbId = 'agb';
+  const roiId = 'roi';
 
   const layers = [
     { label: 'AGB (C Ton/Ha)', value: agbId },
@@ -49,6 +53,9 @@ export default function Main({
     layers,
     layer,
     setLayer,
+    geojson,
+    setGeojson,
+    roiId,
   };
 
   return (
