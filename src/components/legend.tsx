@@ -15,21 +15,23 @@ export default function Legend() {
             key={index}
             style={{
               display: 'flex',
-              gap: '1vh',
-              height: '1.5vh',
-              fontSize: 'x-small',
+              gap: '2vh',
+              height: '3vh',
+              width: '100%',
+              fontSize: 'small',
               alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <div
               style={{
-                width: '10%',
+                width: '15%',
                 height: '100%',
                 border: 'thin solid white',
                 backgroundColor: `#${color}`,
               }}
             />
-            {label[index]}
+            <div style={{ width: '75%' }}>{label[index]}</div>
           </div>
         );
       });
@@ -42,7 +44,6 @@ export default function Legend() {
             gap: '0.5vh',
             height: '30vh',
             overflowY: 'auto',
-            border: 'thin solid white',
             padding: '1vh',
           }}
         >
@@ -60,28 +61,48 @@ export default function Legend() {
             display: 'flex',
             gap: '1vh',
             padding: '1vh',
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '5vh',
-            fontSize: 'x-small',
-            width: '100%'
+            fontSize: 'small',
+            width: '100%',
           }}
         >
-          {lcData[`${layer.value}_vis`].min}
+          <div style={{ textAlign: 'center' }}>
+            <div>AGB</div>
+            <div>(C Ton/Ha)</div>
+          </div>
+          {lcData[`${layer.value}_vis`].max}
           <div
             style={{
-              height: '50%',
+              height: '20vh',
               border: 'thin solid white',
               width: '80%',
-              backgroundImage: `linear-gradient(to right, ${biom_palette.join(', ')})`,
+              backgroundImage: `linear-gradient(to top, ${biom_palette.join(', ')})`,
             }}
           />
-          {lcData[`${layer.value}_vis`].max}
+          {lcData[`${layer.value}_vis`].min}
         </div>
       );
       break;
     }
   }
 
-  return legend;
+  return (
+    <div style={{ position: 'absolute', top: '2vh', left: '2vh', zIndex: 9999999 }}>
+      <div
+        style={{
+          backgroundColor: 'rgb(19, 19, 19)',
+          padding: '1vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1vh',
+        }}
+      >
+        <div style={{ fontSize: 'medium' }}>Legend</div>
+        {legend}
+      </div>
+    </div>
+  );
 }

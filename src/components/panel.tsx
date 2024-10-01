@@ -5,7 +5,6 @@ import { RasterTileSource } from 'maplibre-gl';
 import { useContext } from 'react';
 import Analysis from './analysis';
 import { Select } from './input';
-import Legend from './legend';
 
 export default function Panel() {
   const { status } = useContext(Context);
@@ -29,7 +28,6 @@ export default function Panel() {
       >
         <YearsSelect />
         <LayerSelect />
-        <Legend />
         <Analysis />
         {status.message}
       </div>

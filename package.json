@@ -20,6 +20,7 @@
     "proj4": "^2.12.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-google-charts": "^4.0.7",
     "reproject": "^1.2.7",
     "shpjs": "^6.1.0"
   },

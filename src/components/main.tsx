@@ -7,6 +7,7 @@ import { Option, Status, Urls } from '@/module/type';
 import { FeatureCollection } from 'geojson';
 import { Map } from 'maplibre-gl';
 import { useState } from 'react';
+import Legend from './legend';
 import Panel from './panel';
 
 export default function Main({
@@ -60,6 +61,7 @@ export default function Main({
 
   return (
     <Context.Provider value={states}>
+      <Legend />
       <MapCanvas />
       <Panel />
     </Context.Provider>
