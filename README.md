@@ -2,7 +2,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, install NodeJS
+
+Second, clone the repository
+
+Third, rename .env.example file to .env and replace variable inside it according to your own data
+
+Fourth, run ```npm install``` in the terminal
+
+Fifth, run the development server:
 
 ```bash
 npm run dev
